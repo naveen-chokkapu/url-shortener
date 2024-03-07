@@ -1,15 +1,17 @@
-const mongoose = require('mongoose');
-const config = require('config');
-const db = config.get('mongoURL');
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-const connectDB = async() => {
-    try {
-        await mongoose.connect(db);
-        console.log('MongoDB connected ..');
-    } catch (err) {
-        console.log(err.message);
-        process.exit(1);
-    }
-}
+dotenv.config();
+const URL = process.env.MONGOURL;
 
-module.exports = connectDB;
+const connectDB = async () => {
+  try {
+    await mongoose.connect(URL, { family: 4 });
+    console.log(`MONGODB connected @${URL}`);
+  } catch (err) {
+    console.log(err.message);
+    process.exit(1);
+  }
+};
+
+export default connectDB;

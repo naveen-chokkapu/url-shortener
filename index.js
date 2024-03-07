@@ -1,17 +1,18 @@
-const express = require('express');
-const connectDB = require('./config/db');
+import express from "express";
+import DB from "./config/db.js";
+import dotenv from "dotenv";
+import shortRoute from "./routes/shortRoute.js";
+import getURLRoute from "./routes/getURLRoute.js";
+
+dotenv.config();
+DB();
 
 const app = express();
+const PORT = process.env.PORT || 8000;
 
-// Connect to Database
-connectDB();
+app.use("/", getURLRoute);
+app.use("/api/", shortRoute);
 
-app.use(express.json({ extented:false }));
-
-// Define routes
-app.use('/',require('./routes/index'));
-app.use('/api/url',require('./routes/url'));
-
-app.listen(3000,()=>{
-    console.log('Running Server');
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
